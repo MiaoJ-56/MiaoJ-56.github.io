@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本专题以《数据库系统概念 原书第六版》为参考，结合软件学院课件、微助教题目，致力于制作一套专属笔记。  第一章 引言​    第一章为线上课程，采用老旧的录播课程，课程知识量较大，不过习题比较不错；纯粹的英文课件应采取更好的模式，构建更好的笔记。– 记录于网课结束，便于后期迭代 ​    作为全书的统领，引言介绍了数据库原理概论这门课程要探讨的内容，学习这一部分是比较困难的，众多复杂概念关系应该">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库原理概论——introduction">
+<meta property="og:url" content="http://example.com/2021/03/04/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E6%A6%82%E8%AE%BA%E2%80%94%E2%80%94introduction/index.html">
+<meta property="og:site_name" content="江淼的个人主页">
+<meta property="og:description" content="本专题以《数据库系统概念 原书第六版》为参考，结合软件学院课件、微助教题目，致力于制作一套专属笔记。  第一章 引言​    第一章为线上课程，采用老旧的录播课程，课程知识量较大，不过习题比较不错；纯粹的英文课件应采取更好的模式，构建更好的笔记。– 记录于网课结束，便于后期迭代 ​    作为全书的统领，引言介绍了数据库原理概论这门课程要探讨的内容，学习这一部分是比较困难的，众多复杂概念关系应该">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/.com//Architecture.png">
+<meta property="og:image" content="http://example.com/.com//Architecture-cn.png">
+<meta property="article:published_time" content="2021-03-04T13:58:45.000Z">
+<meta property="article:modified_time" content="2021-03-04T14:23:57.967Z">
+<meta property="article:author" content="江淼">
+<meta property="article:tag" content="数据库原理概论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/.com//Architecture.png">
+
+<link rel="canonical" href="http://example.com/2021/03/04/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E6%A6%82%E8%AE%BA%E2%80%94%E2%80%94introduction/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数据库原理概论——introduction | 江淼的个人主页</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">江淼的个人主页</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/04/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E6%A6%82%E8%AE%BA%E2%80%94%E2%80%94introduction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="江淼">
+      <meta itemprop="description" content="岁月改变我的容颜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江淼的个人主页">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据库原理概论——introduction
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-04 21:58:45 / 修改时间：22:23:57" itemprop="dateCreated datePublished" datetime="2021-03-04T21:58:45+08:00">2021-03-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<h6 id="本专题以《数据库系统概念-原书第六版》为参考，结合软件学院课件、微助教题目，致力于制作一套专属笔记。"><a href="#本专题以《数据库系统概念-原书第六版》为参考，结合软件学院课件、微助教题目，致力于制作一套专属笔记。" class="headerlink" title="本专题以《数据库系统概念 原书第六版》为参考，结合软件学院课件、微助教题目，致力于制作一套专属笔记。"></a>本专题以《数据库系统概念 原书第六版》为参考，结合软件学院课件、微助教题目，致力于制作一套专属笔记。</h6></blockquote>
+<hr>
+<h1 id="第一章-引言"><a href="#第一章-引言" class="headerlink" title="第一章 引言"></a>第一章 引言</h1><p>​    第一章为线上课程，采用老旧的录播课程，课程知识量较大，不过习题比较不错；纯粹的英文课件应采取更好的模式，构建更好的笔记。– 记录于网课结束，便于后期迭代</p>
+<p>​    作为全书的统领，引言介绍了数据库原理概论这门课程要探讨的内容，学习这一部分是比较困难的，众多复杂概念关系应该会在之后的章节中体现，本章旨在全篇引导。</p>
+<p>​    笔记内容以ppt英文为主，辅助以个人理解，希望可以提供帮助。</p>
+<span id="more"></span>
+
+
+<h2 id="1-DB、DBMS、DBS"><a href="#1-DB、DBMS、DBS" class="headerlink" title="1.DB、DBMS、DBS"></a>1.DB、DBMS、DBS</h2><p><em>学习数据库相关知识，首先得理解这三个概念；<del>数据</del>数据库（database）、数据库管理系统，数据库系统</em></p>
+<p><strong>Database (DB)</strong>: contains information about a particular enterprise</p>
+<p>​    <del>*    数据在我们专业中有很多不同的解释，数据结构、数据分析等具体领域也都不尽相同，那么我们数据库原理概论这里的数据，就是指我们在编程中具体遇到的、需要存储并且可以方便操作的信息集合。（个人理解），也就是上述提到的一特定领域企业的信息*</del></p>
+<p><strong>Database Management System (DBMS)</strong> : Provide a way to <strong>store and retrieve</strong> database information that is both <em>convenient</em> and <em>efficient</em>. Like OS, DBMS is a <strong>system software</strong></p>
+<p>​    <em>数据库管理系统是一款系统软件，给我们存储、查询数据信息提供了巨大的<strong>便利</strong>。之前，我们使用文件系统操作数据，在处理数据时会遇到困难的问题，这些阻碍了我们编程的进展，我认为这些问题应该就是数据库原理的基本内容，当我们学完数据库后，编程能力一定会有巨大突破。</em></p>
+<p><strong>关系：数据库管理系统（DBMS）通过调用操作系统(OS)等操作实现对数据（DB）的管理</strong></p>
+<p><strong>由计算机硬件、操作系统、DBMS、数据库、应用程序以及用户等组成的一个整体称为数据库系统(DBS)</strong></p>
+<h2 id="2-DBS的应用"><a href="#2-DBS的应用" class="headerlink" title="2.DBS的应用"></a>2.DBS的应用</h2><p>representative（代表） application：</p>
+<ul>
+<li>Banking: all transactions（事务）</li>
+<li>Airlines: reservations（预约）, schedules</li>
+<li>Universities: registration, grades</li>
+<li>Sales: customers, products, purchases</li>
+<li>Online retailers（零售商）: order tracking（跟踪）, customized（定制的） recommendations</li>
+<li>Manufacturing: production, inventory（存货）, orders, supply chain</li>
+<li>Human resources: employee records, salaries, tax deductions（扣除额）</li>
+</ul>
+<h2 id="3-DBS的目标"><a href="#3-DBS的目标" class="headerlink" title="3.DBS的目标"></a>3.DBS的目标</h2><blockquote>
+<p>​        <strong>这一部分对比了文件系统与数据库系统，点明数据库系统的优势，而这些优势正是我们重点关注的内容；毕竟文件系统真的是给我们的编程造成了不少困扰</strong></p>
+</blockquote>
+<p>Drawbacks of using file system：</p>
+<ul>
+<li>Data redundancy（冗余） and inconsistency</li>
+<li>Difficulty in accessing data ：<ul>
+<li>Need to write a new program to carry out each new task</li>
+</ul>
+</li>
+<li>Data isolation （数据孤立）— multiple files and formats</li>
+<li>Integrity problems（完整性问题）<ul>
+<li>Integrity constraints (e.g. account balance &gt; 0) become “buried” in program code rather than being <strong>stated explicitly</strong>（显示地）</li>
+<li>Hard to <strong>add new</strong> constraints or <strong>change</strong> existing ones</li>
+</ul>
+</li>
+<li>Atomicity of updates(更新时的原子性问题)<ul>
+<li>Failures may leave data in an <strong>inconsistent</strong> state with partial <strong>updates</strong> carried out</li>
+<li>Transfer of funds from one account to another should <strong>either complete or not happen at all</strong></li>
+</ul>
+</li>
+<li>Concurrent（并发） access by multiple users<ul>
+<li>Concurrent access <strong>is needed</strong> for performance</li>
+<li>Uncontrolled concurrent accesses can lead to <strong>inconsistencies</strong></li>
+<li>Two people reading a balance and updating it at the same time</li>
+</ul>
+</li>
+<li>Security problems</li>
+</ul>
+<h2 id="4-View-of-Data"><a href="#4-View-of-Data" class="headerlink" title="4.View of Data"></a>4.View of Data</h2><h3 id="4-1-Data-Abstract"><a href="#4-1-Data-Abstract" class="headerlink" title="4.1 Data Abstract"></a>4.1 Data Abstract</h3><ul>
+<li>database system provide an <em>abstract view</em> of the data</li>
+<li>Hide certain complexity details of how data is <strong>stored and maintained</strong> （存储和维护）</li>
+<li>Achieved through several level of abstraction <ul>
+<li>Physical level <ul>
+<li>describes how a record is stored</li>
+</ul>
+</li>
+<li>Logical level<ul>
+<li>describes what data are stored in the database, and the relationships among the data </li>
+<li>describe entire database</li>
+</ul>
+</li>
+<li>View level <ul>
+<li>Describe part of the database</li>
+<li>A way to hide:<ul>
+<li> (a) details of data types and </li>
+<li> (b) information (such as an employee’s salary) for security purposes</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>![Levl of Abstraction](数据库原理概论——introduction/Levl of Abstraction.png “Levl of Abstraction”)</p>
+<h3 id="4-2-Instances-and-Schemas-模式"><a href="#4-2-Instances-and-Schemas-模式" class="headerlink" title="4.2 Instances and Schemas(模式)"></a>4.2 Instances and Schemas(模式)</h3><h4 id="4-2-1-Similar-to-types-and-variables-in-programming-languages"><a href="#4-2-1-Similar-to-types-and-variables-in-programming-languages" class="headerlink" title="4.2.1 Similar to types and variables in programming languages"></a>4.2.1 Similar to types and variables in programming languages</h4><ul>
+<li><strong>Schema</strong> – the overall design of the database <ul>
+<li>Analogous（相似的） to type information of a variable in a program</li>
+</ul>
+</li>
+<li><strong>Instance</strong> – the collection of information stored in the database at a particular point in time <ul>
+<li>Analogous to the value of a variable</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-2-2-Several-Schemas-of-DBS"><a href="#4-2-2-Several-Schemas-of-DBS" class="headerlink" title="4.2.2 Several Schemas of DBS"></a>4.2.2 Several Schemas of DBS</h4><ul>
+<li><strong>Physical schema</strong>: database design at the physical level</li>
+<li><strong>Logical schema</strong>: database design at the logical level</li>
+<li><strong>Sub schemas</strong>: describe different views at the view level </li>
+</ul>
+<h4 id="4-2-3-Physical-Data-Independence（物理数据独立性）"><a href="#4-2-3-Physical-Data-Independence（物理数据独立性）" class="headerlink" title="4.2.3 Physical Data Independence（物理数据独立性）"></a>4.2.3 <strong>Physical Data Independence</strong>（物理数据独立性）</h4><p>​        – application do not depend on physical schema, and thus need not be rewritten if the physical schema changes </p>
+<ul>
+<li>Applications depend on the logical schema</li>
+<li>Physical schema is hidden beneath the logical schema </li>
+</ul>
+<h3 id="4-3-Data-Models"><a href="#4-3-Data-Models" class="headerlink" title="4.3 Data Models"></a>4.3 Data Models</h3><ul>
+<li><strong>Relational model(关系模型)</strong></li>
+<li><strong>Entity-Relationship data model（实体-联系模型）</strong><ul>
+<li><strong>mainly for database design</strong></li>
+</ul>
+</li>
+<li>Object-based data models （基于对象的数据模型）<ul>
+<li>Object-oriented </li>
+<li>Object-relational</li>
+</ul>
+</li>
+<li>Semistructured data model （半结构化的数据模型）<ul>
+<li>XML</li>
+</ul>
+</li>
+<li>Other older models:<ul>
+<li>Network model （网状数据模型）</li>
+<li>Hierarchical model（层次结构模型）</li>
+</ul>
+</li>
+</ul>
+<h2 id="5-Database-Languages"><a href="#5-Database-Languages" class="headerlink" title="5.Database Languages"></a>5.Database Languages</h2><p>Database system provides </p>
+<ul>
+<li>Data Definition Language (DDL) to specify database <strong>schema</strong></li>
+<li>Data Manipulation Language (DML) to express database <strong>queries and updates</strong> </li>
+</ul>
+<p>In practice, DDL and DML form parts of a single database language</p>
+<ul>
+<li>SQL (Structured Query Language) </li>
+</ul>
+<h3 id="5-1-DDL"><a href="#5-1-DDL" class="headerlink" title="5.1 DDL"></a>5.1 DDL</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> account (</span><br><span class="line">    					account<span class="operator">-</span>number    <span class="type">char</span>(<span class="number">10</span>),</span><br><span class="line">    					balance</span><br><span class="line">    				);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>DDL compiler generates tables according to DDL statements and store the schema definitions of these tables in <strong>data dictionary</strong></li>
+<li>Data dictionary contains metadata(元数据：关于数据的数据) <ul>
+<li>Database schema </li>
+<li>Integrity constraints（完整性约束）</li>
+<li>Authorization（授权）</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-2DML"><a href="#5-2DML" class="headerlink" title="5.2DML"></a>5.2DML</h3><ol>
+<li>Language for accessing and manipulating the data organized by the appropriate data model<ol>
+<li><strong>Retrieval of information</strong></li>
+<li><strong>Insertion of new information</strong></li>
+<li><strong>Deletion of information</strong></li>
+<li><strong>Modification of information</strong> </li>
+</ol>
+</li>
+<li>DML also known as <strong>query language</strong>(尽管技术上，这是不准确的)</li>
+<li>Two classes of languages：<ol>
+<li><strong>Procedural</strong>（过程化） – user specifies what data is required and how to get those data</li>
+<li><strong>Declarative (nonprocedural)</strong> （声明式）– user specifies what data is required without specifying how to get those data</li>
+</ol>
+</li>
+<li>SQL is the most widely used <strong>nonprocedural query language</strong></li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> customer.customer_name <span class="keyword">from</span>   customer <span class="keyword">where</span>  customer.customer_id <span class="operator">=</span> ‘<span class="number">192</span><span class="number">-83</span><span class="number">-7465</span>’</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-Access-from-application-programs"><a href="#6-Access-from-application-programs" class="headerlink" title="6.Access from application programs"></a>6.Access from application programs</h2><p>Application programs generally access databases through one of</p>
+<ul>
+<li>Language <strong>extensions</strong> to allow embedded SQL(扩展宿主语言)</li>
+<li>Application program interface (e.g., ODBC/<strong>JDBC</strong>) which allow SQL queries to be sent to a database</li>
+</ul>
+<h2 id="7-Relational-Databases"><a href="#7-Relational-Databases" class="headerlink" title="7.Relational Databases"></a>7.Relational Databases</h2><ul>
+<li>A relational database is based on the <em><strong>relational data model</strong></em></li>
+<li>Data and relationships among the data is represented by a <em><strong>collection of tables</strong></em> </li>
+<li>Includes both a DML and a DDL</li>
+<li>Most commercial relational database systems employ the <strong>SQL</strong> query language</li>
+</ul>
+<h2 id="8-Database-Design"><a href="#8-Database-Design" class="headerlink" title="8.Database Design"></a>8.Database Design</h2><p><strong>Logical Design</strong> – Deciding on the database schema. Database design requires that we find a “good” collection of relation schemas.</p>
+<ul>
+<li>Business decision – What <strong>attributes</strong> should we record in the database?</li>
+<li>Computer Science decision – What relation schemas should we have and how should the attributes be distributed among the various relation schemas?</li>
+</ul>
+<p><strong>Physical Design</strong> – Deciding on the physical layout of the database</p>
+<h2 id="9-Database-Users"><a href="#9-Database-Users" class="headerlink" title="9.Database Users"></a>9.Database Users</h2><ul>
+<li><strong>Application programmers</strong> – interact with system through <strong>DML</strong> calls</li>
+<li><strong>Sophisticated users</strong>（见多识广的;老练的;见过世面的;复杂巧妙的;先进的;精密的;水平高的;在行的） – form requests in a database query language</li>
+<li><strong>Specialized users</strong> （专家）– write specialized database applications that do not fit into the traditional data processing framework</li>
+<li><strong>Naive users</strong> （天真）– invoke（调用） one of the permanent application programs that have been written previously</li>
+</ul>
+<h2 id="10-Database-Administrator-（DBA）"><a href="#10-Database-Administrator-（DBA）" class="headerlink" title="10.Database Administrator （DBA）"></a>10.Database Administrator （DBA）</h2><ul>
+<li><p>A person who have central control of the database system, coordinates（协调） all the activities of the database system</p>
+</li>
+<li><p>Has a good understanding of the enterprise’s information resources and needs </p>
+</li>
+<li><p>Database administrator’s duties include:</p>
+<ul>
+<li>Schema definition</li>
+<li>Storage structure and access method definition</li>
+<li><strong>Granting user authority</strong> to access the database</li>
+<li>Specifying <strong>integrity constraints</strong></li>
+<li>Acting as liaison（联络） with users</li>
+<li><strong>Monitoring performance</strong> and responding to <strong>changes</strong> in requirements</li>
+</ul>
+</li>
+</ul>
+<h2 id="11-Database-System-Structure"><a href="#11-Database-System-Structure" class="headerlink" title="11.Database System Structure"></a>11.Database System Structure</h2><p>Function components of DBMS</p>
+<ul>
+<li>Storage Management（存储管理器）</li>
+<li>Query Processing （查询处理器）</li>
+</ul>
+<h3 id="11-1-Storage-Management"><a href="#11-1-Storage-Management" class="headerlink" title="11.1 Storage Management"></a>11.1 Storage Management</h3><ul>
+<li><p>Database data is typically stored on secondary memory (hard disk), using file system</p>
+</li>
+<li><p>Storage Manager is a program module responsible to</p>
+<ul>
+<li>Interact with the <strong>file sytem</strong> </li>
+<li><strong>Efficient</strong> storing, retrieving and updating of data</li>
+</ul>
+</li>
+<li><p><em>Storage Manager</em> include following <strong>components</strong></p>
+<ul>
+<li>Authorization and integrity manager（<strong>权限及完整性管理器</strong>）</li>
+<li>Transaction manager（<strong>事务管理器</strong>）</li>
+<li>File manager（<strong>文件管理器</strong>）</li>
+<li>Buffer manager（<strong>缓冲区管理器</strong>）</li>
+</ul>
+</li>
+<li><p>Authorization and integrity manager</p>
+<ul>
+<li>Tests for the satisfaction of integrity constraints and check the authority of users to access data</li>
+</ul>
+</li>
+<li><p>Transaction manager</p>
+<ul>
+<li>Ensure database remains in a consistent state despite system failure</li>
+<li>Ensure concurrent transaction execution proceed without conflicting </li>
+</ul>
+</li>
+<li><p>File manager</p>
+<ul>
+<li>Allocate space on disk storage</li>
+<li>Manage data structures used to represent information stored on disk</li>
+</ul>
+</li>
+<li><p>Buffer manager</p>
+<ul>
+<li>Fetch data from disk storage to main memory</li>
+<li>Decide what data to cache in main memory</li>
+</ul>
+</li>
+<li><p>Storage Manager implements following data structures</p>
+<ul>
+<li><strong>Data File</strong>（数据文件）: store database itself </li>
+<li><strong>Data Dictionary</strong>（数据字典）: store metadata about the structure of database, in particular the schema of database </li>
+<li><strong>Indices</strong>（索引）: provide fast access to data items that hold particular value </li>
+</ul>
+</li>
+</ul>
+<h3 id="11-2-Query-Processing"><a href="#11-2-Query-Processing" class="headerlink" title="11.2 Query Processing"></a>11.2 Query Processing</h3><ul>
+<li><p>One of the main purpose of DBS is to <strong>simplify and facilitate</strong> （促进）access to data</p>
+</li>
+<li><p>DBS achieve this goal by</p>
+<ul>
+<li>Data abstraction </li>
+<li>Nonprocedural language （非过程化）</li>
+</ul>
+</li>
+<li><p><strong>Query Processor</strong> translates updates and queries written in a nonprocedural language, at the logical level, into an efficient sequence of operations at the physical level </p>
+</li>
+<li><p>Query processor components include</p>
+<ul>
+<li>DDL Interpreter（解释器）<ul>
+<li><strong>Interprets</strong> DDL statement and <strong>record</strong> definitions in the <strong>data dictionary</strong></li>
+</ul>
+</li>
+<li>DML Compiler（编译器）<ul>
+<li>Translate DML statement into an evaluation plan consisting <strong>low-level instructions</strong></li>
+</ul>
+</li>
+<li>Query Evaluation Engine（查询执行引擎）<ul>
+<li>Executes low level instructions generated by DML compiler</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>（*）查询执行、查询优化器选择合适执行策略的方法</p>
+<h2 id="12-Transaction-Management"><a href="#12-Transaction-Management" class="headerlink" title="12.Transaction Management"></a>12.Transaction Management</h2><ul>
+<li>A <strong>transaction</strong> is a collection of operations that performs a single logical function in a database application</li>
+<li><strong>Transaction-management component</strong> ensures that the database remains in a <strong>consistent (correct) state</strong> despite system failures (e.g., power failures and operating system crashes) and transaction failures.</li>
+<li><strong>Concurrency-control manager</strong> controls the interaction among the concurrent transactions, to ensure the consistency of the database</li>
+</ul>
+<h2 id="13-Database-Architecture"><a href="#13-Database-Architecture" class="headerlink" title="13.Database Architecture"></a>13.Database Architecture</h2><ul>
+<li>The architecture of a database systems is greatly influenced by the underlying computer system on which the database is running<ul>
+<li>Centralized</li>
+<li>Client-server</li>
+<li>Parallel (multi-processor)</li>
+<li>Distributed</li>
+</ul>
+</li>
+</ul>
+<p><img src="/.com//Architecture.png" alt="Architecture" title="Architecture"></p>
+<p><img src="/.com//Architecture-cn.png" alt="Architecture-cn" title="Architecture-cn"></p>
+<h2 id="14-History-of-Database-Systems"><a href="#14-History-of-Database-Systems" class="headerlink" title="14.History of Database Systems"></a>14.History of Database Systems</h2><ul>
+<li><p>1950s and early 1960s:</p>
+<ul>
+<li>Data processing using magnetic tapes for storage<ul>
+<li>Tapes provide only sequential access</li>
+</ul>
+</li>
+<li>Punched cards for input</li>
+</ul>
+</li>
+<li><p>Late 1960s and 1970s:</p>
+<ul>
+<li>Hard disks allow direct access to data</li>
+<li>Network and hierarchical data models in widespread use</li>
+<li>Ted Codd defines the relational data model<ul>
+<li>Would win the ACM Turing Award for this work</li>
+<li>IBM Research begins System R prototype</li>
+<li>UC Berkeley begins Ingres prototype</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>1980s:</p>
+<ul>
+<li>Research relational prototypes evolve into commercial systems<ul>
+<li>SQL becomes industrial standard</li>
+</ul>
+</li>
+<li>Parallel and distributed database systems</li>
+<li>Object-oriented database systems</li>
+</ul>
+</li>
+<li><p>1990s:</p>
+<ul>
+<li>Large decision support and data-mining applications</li>
+<li>Large multi-terabyte data warehouses</li>
+<li>Emergence of Web commerce</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E6%A6%82%E8%AE%BA/" rel="tag"># 数据库原理概论</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/03/hello-world/" rel="prev" title="Hello World">
+      <i class="fa fa-chevron-left"></i> Hello World
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%9C%AC%E4%B8%93%E9%A2%98%E4%BB%A5%E3%80%8A%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5-%E5%8E%9F%E4%B9%A6%E7%AC%AC%E5%85%AD%E7%89%88%E3%80%8B%E4%B8%BA%E5%8F%82%E8%80%83%EF%BC%8C%E7%BB%93%E5%90%88%E8%BD%AF%E4%BB%B6%E5%AD%A6%E9%99%A2%E8%AF%BE%E4%BB%B6%E3%80%81%E5%BE%AE%E5%8A%A9%E6%95%99%E9%A2%98%E7%9B%AE%EF%BC%8C%E8%87%B4%E5%8A%9B%E4%BA%8E%E5%88%B6%E4%BD%9C%E4%B8%80%E5%A5%97%E4%B8%93%E5%B1%9E%E7%AC%94%E8%AE%B0%E3%80%82"><span class="nav-number">1.</span> <span class="nav-text">本专题以《数据库系统概念 原书第六版》为参考，结合软件学院课件、微助教题目，致力于制作一套专属笔记。</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BC%95%E8%A8%80"><span class="nav-number"></span> <span class="nav-text">第一章 引言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-DB%E3%80%81DBMS%E3%80%81DBS"><span class="nav-number"></span> <span class="nav-text">1.DB、DBMS、DBS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-DBS%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number"></span> <span class="nav-text">2.DBS的应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-DBS%E7%9A%84%E7%9B%AE%E6%A0%87"><span class="nav-number"></span> <span class="nav-text">3.DBS的目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-View-of-Data"><span class="nav-number"></span> <span class="nav-text">4.View of Data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-Data-Abstract"><span class="nav-number"></span> <span class="nav-text">4.1 Data Abstract</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-Instances-and-Schemas-%E6%A8%A1%E5%BC%8F"><span class="nav-number"></span> <span class="nav-text">4.2 Instances and Schemas(模式)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-Similar-to-types-and-variables-in-programming-languages"><span class="nav-number"></span> <span class="nav-text">4.2.1 Similar to types and variables in programming languages</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-Several-Schemas-of-DBS"><span class="nav-number"></span> <span class="nav-text">4.2.2 Several Schemas of DBS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-3-Physical-Data-Independence%EF%BC%88%E7%89%A9%E7%90%86%E6%95%B0%E6%8D%AE%E7%8B%AC%E7%AB%8B%E6%80%A7%EF%BC%89"><span class="nav-number"></span> <span class="nav-text">4.2.3 Physical Data Independence（物理数据独立性）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-Data-Models"><span class="nav-number"></span> <span class="nav-text">4.3 Data Models</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Database-Languages"><span class="nav-number"></span> <span class="nav-text">5.Database Languages</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-DDL"><span class="nav-number"></span> <span class="nav-text">5.1 DDL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2DML"><span class="nav-number"></span> <span class="nav-text">5.2DML</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Access-from-application-programs"><span class="nav-number"></span> <span class="nav-text">6.Access from application programs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-Relational-Databases"><span class="nav-number"></span> <span class="nav-text">7.Relational Databases</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-Database-Design"><span class="nav-number"></span> <span class="nav-text">8.Database Design</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-Database-Users"><span class="nav-number"></span> <span class="nav-text">9.Database Users</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-Database-Administrator-%EF%BC%88DBA%EF%BC%89"><span class="nav-number"></span> <span class="nav-text">10.Database Administrator （DBA）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-Database-System-Structure"><span class="nav-number"></span> <span class="nav-text">11.Database System Structure</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#11-1-Storage-Management"><span class="nav-number"></span> <span class="nav-text">11.1 Storage Management</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-2-Query-Processing"><span class="nav-number"></span> <span class="nav-text">11.2 Query Processing</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-Transaction-Management"><span class="nav-number"></span> <span class="nav-text">12.Transaction Management</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-Database-Architecture"><span class="nav-number"></span> <span class="nav-text">13.Database Architecture</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-History-of-Database-Systems"><span class="nav-number"></span> <span class="nav-text">14.History of Database Systems</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="江淼"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">江淼</p>
+  <div class="site-description" itemprop="description">岁月改变我的容颜</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/MiaoJ-56" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;MiaoJ-56" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1919765816@qq.com" title="E-Mail → mailto:1919765816@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021-03 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">江淼</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
