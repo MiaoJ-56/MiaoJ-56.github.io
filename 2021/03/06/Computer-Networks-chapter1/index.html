@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="计算机网络综述： ​    第一章的学习与数据库概论不同，在理解方面存在太多偏差，缺乏通讯的知识，对于庞杂的概念犹如学习软需，但实际上更像是计组，对于计算机网络的相关实例不够熟悉，难以把握本课程的主线。同时，理论结合实际，习题是必要的。 知乎回答：计算机网络微课程  在阅读王道考研资料后，对于计算机网络有一定的了解，可以进行笔记整理 同时，可以观看计算机网络微课堂获取更多知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Computer Networks_chapter1">
+<meta property="og:url" content="http://example.com/2021/03/06/Computer-Networks-chapter1/index.html">
+<meta property="og:site_name" content="江淼的个人主页">
+<meta property="og:description" content="计算机网络综述： ​    第一章的学习与数据库概论不同，在理解方面存在太多偏差，缺乏通讯的知识，对于庞杂的概念犹如学习软需，但实际上更像是计组，对于计算机网络的相关实例不够熟悉，难以把握本课程的主线。同时，理论结合实际，习题是必要的。 知乎回答：计算机网络微课程  在阅读王道考研资料后，对于计算机网络有一定的了解，可以进行笔记整理 同时，可以观看计算机网络微课堂获取更多知识">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/03/06/Computer-Networks-chapter1/terms.png">
+<meta property="article:published_time" content="2021-03-06T03:36:16.000Z">
+<meta property="article:modified_time" content="2021-03-06T03:43:51.246Z">
+<meta property="article:author" content="江淼">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/03/06/Computer-Networks-chapter1/terms.png">
+
+<link rel="canonical" href="http://example.com/2021/03/06/Computer-Networks-chapter1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Computer Networks_chapter1 | 江淼的个人主页</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">江淼的个人主页</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/06/Computer-Networks-chapter1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="江淼">
+      <meta itemprop="description" content="岁月改变我的容颜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江淼的个人主页">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Computer Networks_chapter1
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-06 11:36:16 / 修改时间：11:43:51" itemprop="dateCreated datePublished" datetime="2021-03-06T11:36:16+08:00">2021-03-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id><a href="#" class="headerlink" title></a></h3><p>计算机网络综述：</p>
+<p>​    第一章的学习与数据库概论不同，在理解方面存在太多偏差，缺乏通讯的知识，对于庞杂的概念犹如学习<em>软需</em>，但实际上更像是<em>计组</em>，对于计算机网络的相关实例不够熟悉，难以把握本课程的主线。同时，理论结合实际，习题是必要的。</p>
+<p>知乎回答：计算机网络微课程</p>
+<hr>
+<p>在阅读<strong>王道考研资料</strong>后，对于计算机网络有一定的了解，可以进行笔记整理</p>
+<p>同时，可以观看<strong>计算机网络微课堂</strong>获取更多知识</p>
+<span id="more"></span>
+
+<h1 id="Chapter-1-Introduction"><a href="#Chapter-1-Introduction" class="headerlink" title="Chapter 1. Introduction"></a>Chapter 1. Introduction</h1><p>​    以Internet为例,对于计算机网络大致了解，熟悉相关术语<font color="red">terminology</font></p>
+<p>​    Terms :</p>
+<ul>
+<li>TCP: Transmission Control Protocol</li>
+<li>UDP: User Datagram Protocol</li>
+<li>ISP: Internet Service Provider</li>
+<li>LAN: Local Area Network</li>
+<li>WAN: Wide Area Network</li>
+<li>FDM: Frequency Division Multiplexing</li>
+<li>TDM: Time Division Multiplexing</li>
+</ul>
+<p><img src="/2021/03/06/Computer-Networks-chapter1/terms.png" alt="terms" title="terms"></p>
+<h2 id="1-1-What-is-the-internet"><a href="#1-1-What-is-the-internet" class="headerlink" title="1.1 What is the internet?"></a>1.1 What is the internet?</h2><p>Computer Networks:</p>
+<p>​    A computer network is composed of multiple computers <strong>connected</strong> together using a telecommunication system(电信系统) for the purpose of <strong>sharing</strong> data, resources and communication.</p>
+<h3 id="1-1-1-Composition-of-Computer-Network"><a href="#1-1-1-Composition-of-Computer-Network" class="headerlink" title="1.1.1 Composition of Computer Network"></a>1.1.1 Composition of Computer Network</h3><ul>
+<li>Hardware<ul>
+<li>End Systems: Host, PC, Mainframe(大型机), Client, Workstation, Server</li>
+<li>Intermediate Systems: Communications: Switch, Router [交换设备]</li>
+<li>Interface: Network interface card(NIC), Modem [通信处理机]</li>
+<li>Medium: Twisted pair, Coaxial cable, Fiber, Wireless [通信链路]</li>
+</ul>
+</li>
+<li>Software<ul>
+<li><strong>Protocol</strong>（协议）: CSMA/CD, TCP/IP, UDP, PPP, ATM </li>
+<li>Applications: HTTP, SMTP, FTP, Telnet</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-1-2-Applications-of-Networks"><a href="#1-1-2-Applications-of-Networks" class="headerlink" title="1.1.2 Applications of Networks"></a>1.1.2 Applications of Networks</h3><ul>
+<li>Resource Sharing</li>
+<li>Information Sharing</li>
+<li>Communication</li>
+<li>Ubiquitous Computing(普适计算)</li>
+<li>Mobile Users</li>
+</ul>
+<h3 id="1-1-3-Category-of-Computer-Networks"><a href="#1-1-3-Category-of-Computer-Networks" class="headerlink" title="1.1.3 Category of Computer Networks"></a>1.1.3 Category of Computer Networks</h3><ul>
+<li>Classified by Topology<ul>
+<li>Bus Topology</li>
+<li>Star &amp; Tree Topology<ul>
+<li>The star topology is the most commonly used architecture in <strong>Ethernet LANs</strong>. </li>
+</ul>
+</li>
+<li>Ring Topology</li>
+</ul>
+</li>
+<li>Classified by scale<ul>
+<li>LAN</li>
+<li>WAN</li>
+<li>Internet</li>
+</ul>
+</li>
+<li>Classified by boundary<ul>
+<li>Intranet （Private Networks）</li>
+<li>Extranet （Public Networks）</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-1-4-What’s-a-protocol"><a href="#1-1-4-What’s-a-protocol" class="headerlink" title="1.1.4 What’s a protocol?"></a>1.1.4 What’s a protocol?</h3><p>​    protocols define <strong>format,order</strong> of msgs sent and received among network entities, and actions taken on msg transmission, receipt </p>
+<p>​    <strong>定义了两个或多个网络实体之间交换的报文格式和顺序，以及报文发送或接收一条报文或其他事件采取的动作。</strong></p>
+<h2 id="1-2-Internet-History"><a href="#1-2-Internet-History" class="headerlink" title="1.2 Internet History"></a>1.2 Internet History</h2><ul>
+<li><em>1961-1972: Early packet-switching principles</em></li>
+<li><em>1972-1980: Internetworking, new and proprietary nets</em></li>
+<li><em>1980-1990: new protocols, a proliferation</em> <em>of</em> <em>networks</em></li>
+<li><em>1990, 2000<strong>’</strong>s: commercialization, the Web, new apps</em></li>
+<li>……</li>
+</ul>
+<h2 id="1-3-Network-edge"><a href="#1-3-Network-edge" class="headerlink" title="1.3 Network edge"></a>1.3 Network edge</h2><blockquote>
+<p>network structure：</p>
+<ul>
+<li>network edge：<ul>
+<li>applications and hosts</li>
+</ul>
+</li>
+<li>network core: <ul>
+<li>routers</li>
+<li>network of networks</li>
+</ul>
+</li>
+<li>access networks, physical media：<ul>
+<li> communication links</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>……</p>
+<h2 id="1-4-The-Network-Core"><a href="#1-4-The-Network-Core" class="headerlink" title="1.4 The Network Core"></a>1.4 The Network Core</h2><ul>
+<li>Mesh of interconnected routers</li>
+<li><em>the</em> fundamental question: how is data transferred through net?<ul>
+<li>circuit switching:<ul>
+<li>dedicated circuit per call: telephone net</li>
+</ul>
+</li>
+<li>packet-switching: <ul>
+<li>data sent thru net in discrete “chunks”</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-5-Network-access-and-physical-media"><a href="#1-5-Network-access-and-physical-media" class="headerlink" title="1.5 Network access and physical media"></a>1.5 Network access and physical media</h2><h2 id="1-6-Internet-structure-and-ISPs"><a href="#1-6-Internet-structure-and-ISPs" class="headerlink" title="1.6 Internet structure and ISPs"></a>1.6 Internet structure and ISPs</h2><h2 id="1-7-Delay-amp-loss-in-packet-switched-networks"><a href="#1-7-Delay-amp-loss-in-packet-switched-networks" class="headerlink" title="1.7 Delay &amp; loss in packet-switched networks"></a>1.7 Delay &amp; loss in packet-switched networks</h2><h2 id="1-8-Protocol-layers-service-models"><a href="#1-8-Protocol-layers-service-models" class="headerlink" title="1.8 Protocol layers, service models"></a>1.8 Protocol layers, service models</h2>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/04/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86%E6%A6%82%E8%AE%BA%E2%80%94%E2%80%94introduction/" rel="prev" title="数据库原理概论——introduction">
+      <i class="fa fa-chevron-left"></i> 数据库原理概论——introduction
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text"></span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter-1-Introduction"><span class="nav-number"></span> <span class="nav-text">Chapter 1. Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-What-is-the-internet"><span class="nav-number"></span> <span class="nav-text">1.1 What is the internet?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-Composition-of-Computer-Network"><span class="nav-number">1.</span> <span class="nav-text">1.1.1 Composition of Computer Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-Applications-of-Networks"><span class="nav-number">2.</span> <span class="nav-text">1.1.2 Applications of Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-3-Category-of-Computer-Networks"><span class="nav-number">3.</span> <span class="nav-text">1.1.3 Category of Computer Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-4-What%E2%80%99s-a-protocol"><span class="nav-number">4.</span> <span class="nav-text">1.1.4 What’s a protocol?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-Internet-History"><span class="nav-number"></span> <span class="nav-text">1.2 Internet History</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Network-edge"><span class="nav-number"></span> <span class="nav-text">1.3 Network edge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-The-Network-Core"><span class="nav-number"></span> <span class="nav-text">1.4 The Network Core</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-Network-access-and-physical-media"><span class="nav-number"></span> <span class="nav-text">1.5 Network access and physical media</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-Internet-structure-and-ISPs"><span class="nav-number"></span> <span class="nav-text">1.6 Internet structure and ISPs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-7-Delay-amp-loss-in-packet-switched-networks"><span class="nav-number"></span> <span class="nav-text">1.7 Delay &amp; loss in packet-switched networks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-8-Protocol-layers-service-models"><span class="nav-number"></span> <span class="nav-text">1.8 Protocol layers, service models</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="江淼"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">江淼</p>
+  <div class="site-description" itemprop="description">岁月改变我的容颜</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/MiaoJ-56" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;MiaoJ-56" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1919765816@qq.com" title="E-Mail → mailto:1919765816@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021-03 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">江淼</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
